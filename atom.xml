@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://mercurycity.github.io</id>
     <title>Gridea</title>
-    <updated>2021-07-01T08:03:15.002Z</updated>
+    <updated>2021-07-01T08:09:09.550Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://mercurycity.github.io"/>
     <link rel="self" href="https://mercurycity.github.io/atom.xml"/>
@@ -10,4 +10,27 @@
     <logo>https://mercurycity.github.io/images/avatar.png</logo>
     <icon>https://mercurycity.github.io/favicon.ico</icon>
     <rights>All rights reserved 2021, Gridea</rights>
+    <entry>
+        <title type="html"><![CDATA[你渴望力量么？]]></title>
+        <id>https://mercurycity.github.io/post/ni-ke-wang-li-liang-me/</id>
+        <link href="https://mercurycity.github.io/post/ni-ke-wang-li-liang-me/">
+        </link>
+        <updated>2021-07-01T08:04:04.000Z</updated>
+        <content type="html"><![CDATA[<p>2021暑假任务：<br>
+1.完成2020年所有USACO铜组题目<br>
+December：<br>
+T1：over T2：over T3：<br>
+...<br>
+2.完成暑假作业<br>
+语文：<br>
+数学：<br>
+英语：<br>
+物理：<br>
+化学：<br>
+政治：<br>
+历史：<br>
+3.搭建属于自己的博客 Finish<br>
+4.8/8比赛优胜</p>
+]]></content>
+    </entry>
 </feed>
