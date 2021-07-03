@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://mercurycity.github.io</id>
     <title>Gridea</title>
-    <updated>2021-07-03T07:01:28.593Z</updated>
+    <updated>2021-07-03T07:01:56.190Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://mercurycity.github.io"/>
     <link rel="self" href="https://mercurycity.github.io/atom.xml"/>
@@ -32,8 +32,8 @@
 <h4 id="测试点性质">测试点性质：</h4>
 <p>测试点 2-3 满足 C≤50。<br>
 测试点 4-10 没有额外限制。</p>
-<p>####解题思路<br>
-显然</p>
+<h4 id="解题思路">解题思路</h4>
+<p>显然</p>
 <p class='katex-block'><span class="katex-display"><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi mathvariant="normal">∀</mi><mtext>A,B,C</mtext><mo>∈</mo><mi mathvariant="double-struck">N</mi></mrow><annotation encoding="application/x-tex">\forall \text{\text{A,B,C}} \in \mathbb{N}
 </annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8888799999999999em;vertical-align:-0.19444em;"></span><span class="mord">∀</span><span class="mord text"><span class="mord text"><span class="mord">A,B,C</span></span></span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">∈</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.68889em;vertical-align:0em;"></span><span class="mord"><span class="mord mathbb">N</span></span></span></span></span></span></p>
 <p>所以，从小到大排序，然后最小的两个一定是ABC中的一个</p>
@@ -61,43 +61,43 @@
 <p>6</p>
 <h4 id="样例解释">样例解释</h4>
 <p>每张仅包含一朵花的照片均会被计入答案（在这个样例中有 4 张）。另外，在这个样例中 (i,j) 为 (1,2) 和 (2,4) 所对应的照片也存在平均的花。</p>
-<h4 id="解题思路">解题思路</h4>
+<h4 id="解题思路-2">解题思路</h4>
 <p>数据量很小，直接暴力模拟。</p>
 <p>同样，die码没有保存。。</p>
 <h2 id="t3-stuck-in-a-rut">T3 Stuck in a Rut</h2>
-<p>####题面描述<br>
-Farmer John 最近扩大了他的农场，从奶牛们的角度看来这个农场相当于是无限大了！奶牛们将农场上放牧的区域想作是一个由正方形方格组成的无限大二维方阵，每个方格中均有美味的草（将每个方格看作是棋盘上的一个方格）。Farmer John 的 N 头奶牛（1≤N≤50）初始时位于不同的方格中，一部分朝向北面，一部分朝向东面。<br>
+<h4 id="题面描述-3">题面描述</h4>
+<p>Farmer John 最近扩大了他的农场，从奶牛们的角度看来这个农场相当于是无限大了！奶牛们将农场上放牧的区域想作是一个由正方形方格组成的无限大二维方阵，每个方格中均有美味的草（将每个方格看作是棋盘上的一个方格）。Farmer John 的 N 头奶牛（1≤N≤50）初始时位于不同的方格中，一部分朝向北面，一部分朝向东面。<br>
 每一小时，每头奶牛会执行以下二者之一：</p>
 <p>如果她当前所在的方格里的草已经被其他奶牛吃掉了，则她会停下。<br>
 吃完她当前所在的方格中的所有草，并向她朝向的方向移动一个方格。<br>
 经过一段时间，每头奶牛的身后会留下一条被啃秃了的轨迹。</p>
 <p>如果两头奶牛在一次移动中移动到了同一个有草的方格，她们会分享这个方格中的草，并在下一个小时继续沿她们朝向的方向移动。</p>
 <p>请求出每头奶牛吃到的草的数量。有些奶牛永远不会停下，从而吃到无限多的草。</p>
-<p>####输入格式（从终端/标准输入读入）：<br>
-输入的第一行包含 N。以下 N 行，每行描述一头奶牛的起始位置，包含一个字符 N（表示朝向北面） 或 E（表示朝向东面），以及两个非负整数 x 和 y（0≤x≤109，0≤y≤109）表示方格的坐标。所有 x 坐标各不相同，所有 y 坐标各不相同。<br>
+<h4 id="输入格式从终端标准输入读入-3">输入格式（从终端/标准输入读入）：</h4>
+<p>输入的第一行包含 N。以下 N 行，每行描述一头奶牛的起始位置，包含一个字符 N（表示朝向北面） 或 E（表示朝向东面），以及两个非负整数 x 和 y（0≤x≤109，0≤y≤109）表示方格的坐标。所有 x 坐标各不相同，所有 y 坐标各不相同。<br>
 为了使方向和坐标尽可能明确，如果一头奶牛位于方格 (x,y) 并向北移动，她会到达方格 (x,y+1)。如果她向东移动，她会到达方格 (x+1,y)。</p>
-<p>####输出格式（输出至终端/标准输出）：<br>
-输出 N 行。输出的第 i 行包含输入中的第 i 头奶牛吃到草的方格的数量。如果一头奶牛可以吃到无限多的草，为这头奶牛输出 &quot;Infinity&quot;。<br>
-####输入样例：<br>
-6<br>
+<h4 id="输出格式输出至终端标准输出-3">输出格式（输出至终端/标准输出）：</h4>
+<p>输出 N 行。输出的第 i 行包含输入中的第 i 头奶牛吃到草的方格的数量。如果一头奶牛可以吃到无限多的草，为这头奶牛输出 &quot;Infinity&quot;。</p>
+<h4 id="输入样例-3">输入样例：</h4>
+<p>6<br>
 E 3 5<br>
 N 5 3<br>
 E 4 6<br>
 E 10 4<br>
 N 11 2<br>
-N 8 1<br>
-####输出样例：<br>
-5<br>
+N 8 1</p>
+<h4 id="输出样例-3">输出样例：</h4>
+<p>5<br>
 3<br>
 Infinity<br>
 Infinity<br>
 2<br>
-5<br>
-####测试点性质：<br>
-测试点 2-5 中，所有坐标不超过 100。<br>
+5</p>
+<h4 id="测试点性质-2">测试点性质：</h4>
+<p>测试点 2-5 中，所有坐标不超过 100。<br>
 测试点 6-10 没有额外限制。</p>
-<p>####解题思路<br>
-说实话，真是一道好（duliu）题。</p>
+<h4 id="解题思路-3">解题思路</h4>
+<p>说实话，真是一道好（duliu）题。</p>
 <p>做了很久，个人思路就是将可能会相遇的点全部保存下来，然后一个一个进行筛选。</p>
 <p>筛选的时候要注意，你不能只用一个book数组记录哪一个点已经停了下来，而是应该继续记录那个点运动了多少，下一次如果运动不到应该运动到的相遇地方，就pass。</p>
 <h4 id="蒟蒻die码">蒟蒻die码</h4>
@@ -186,7 +186,6 @@ int main(){
     return 0;
 }
 </code></pre>
-<p>对不起，没有缩进，我也很难受。┭┮﹏┭┮</p>
 ]]></content>
     </entry>
     <entry>
