@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://mercurycity.github.io</id>
     <title>Gridea</title>
-    <updated>2021-07-03T07:01:56.190Z</updated>
+    <updated>2021-07-03T07:02:59.517Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://mercurycity.github.io"/>
     <link rel="self" href="https://mercurycity.github.io/atom.xml"/>
@@ -44,7 +44,7 @@
 <p>Code:</p>
 <pre><code>die码当时没保存，┭┮﹏┭┮
 </code></pre>
-<p>##T2 Daisy Chains</p>
+<h2 id="t2-daisy-chains">T2 Daisy Chains</h2>
 <h3 id="题面描述-2">题面描述</h3>
 <p>每天，作为她绕农场行走的一部分，奶牛 Bessie 会经过她最喜爱的草地，其中种有 N 朵花（五颜六色的雏菊），编号为 1…N（1≤N≤100），排列成一行。花 i 有 pi 朵花瓣（1≤pi≤1000）。<br>
 作为一名崭露头角的摄影家，Bessie 决定给这些花拍些照片。具体地说，对于每一对满足 1≤i≤j≤N 的花 (i,j)，Bessie 会给从花 i 到花 j 之间的所有花（包括 i 和 j）拍一张照。</p>
