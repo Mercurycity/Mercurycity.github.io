@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://mercurycity.github.io</id>
-    <title>Gridea</title>
-    <updated>2021-07-03T10:55:49.244Z</updated>
+    <title>Mercury的小屋</title>
+    <updated>2021-07-03T10:56:20.506Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://mercurycity.github.io"/>
     <link rel="self" href="https://mercurycity.github.io/atom.xml"/>
     <subtitle>山登绝顶我为峰！</subtitle>
     <logo>https://mercurycity.github.io/images/avatar.png</logo>
     <icon>https://mercurycity.github.io/favicon.ico</icon>
-    <rights>All rights reserved 2021, Gridea</rights>
+    <rights>All rights reserved 2021, Mercury的小屋</rights>
     <entry>
         <title type="html"><![CDATA[2020 December Contest Bronze 题解]]></title>
         <id>https://mercurycity.github.io/post/2020-december-contest-bronze-ti-jie/</id>
