@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://mercurycity.github.io</id>
     <title>Mercury的小屋</title>
-    <updated>2021-07-05T14:12:33.468Z</updated>
+    <updated>2021-07-05T14:15:10.020Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://mercurycity.github.io"/>
     <link rel="self" href="https://mercurycity.github.io/atom.xml"/>
@@ -34,9 +34,9 @@
 <h3 id="输出格式">输出格式</h3>
 <p>样例输出中第一个数是你猜的 <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>k</mi></mrow><annotation encoding="application/x-tex">k</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.69444em;vertical-align:0em;"></span><span class="mord mathdefault" style="margin-right:0.03148em;">k</span></span></span></span>，第二个数是你调用 Seniorious 函数的次数。这些数据你不必输出。</p>
 <h3 id="输入输出样例">输入输出样例</h3>
-<h4 id="输入-1复制">输入 #1复制</h4>
+<h4 id="输入">输入</h4>
 <p>5 5 3</p>
-<h4 id="输出-1复制">输出 #1复制</h4>
+<h4 id="输出">输出</h4>
 <p>3 0</p>
 <h3 id="说明提示">说明/提示</h3>
 <h4 id="样例解释">样例解释</h4>
