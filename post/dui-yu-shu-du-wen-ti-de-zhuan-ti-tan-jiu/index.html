@@ -1,0 +1,483 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>对于数独问题的专题探究 | Mercury的小屋</title>
+<link rel="shortcut icon" href="https://mercurycity.github.io/favicon.ico?v=1625729451610">
+<link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
+<link rel="stylesheet" href="https://mercurycity.github.io/styles/main.css">
+<link rel="alternate" type="application/atom+xml" title="对于数独问题的专题探究 | Mercury的小屋 - Atom Feed" href="https://mercurycity.github.io/atom.xml">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
+
+
+
+    <meta name="description" content="最近研究了一下数独之类的问题（其实就两个）。总结一下：
+数独，因为其较为复杂的相互关系被视为一种脑力工作。如果要去用计算机解决这个问题，则被看做一种暴力问题。
+对于这些相互关系，我们可以用若干个二维数组去存储。
+比如说P1784 数独，这一..." />
+    <meta name="keywords" content="" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+    <script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+  </head>
+  <body>
+    <div class="main">
+      <div class="main-content">
+        <div class="site-header">
+  <a href="https://mercurycity.github.io">
+  <img class="avatar" src="https://mercurycity.github.io/images/avatar.png?v=1625729451610" alt="">
+  </a>
+  <h1 class="site-title">
+    Mercury的小屋
+  </h1>
+  <p class="site-description">
+    刘玖拾的一个小屋，专门端捧刘玖拾的梦想。
+  </p>
+  <div class="menu-container">
+    
+      
+        <a href="/" class="menu">
+          首页
+        </a>
+      
+    
+      
+        <a href="/archives" class="menu">
+          归档
+        </a>
+      
+    
+      
+        <a href="/tags" class="menu">
+          标签
+        </a>
+      
+    
+      
+        <a href="/post/about" class="menu">
+          关于
+        </a>
+      
+    
+  </div>
+  <div class="social-container">
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+  </div>
+</div>
+
+        <div class="post-detail">
+          <article class="post">
+            <h2 class="post-title">
+              对于数独问题的专题探究
+            </h2>
+            <div class="post-info">
+              <span>
+                2021-07-08
+              </span>
+              <span>
+                17 min read
+              </span>
+              
+            </div>
+            
+            <div class="post-content-wrapper">
+              <div class="post-content">
+                <p>最近研究了一下数独之类的问题（其实就两个）。总结一下：</p>
+<p>数独，因为其较为复杂的相互关系被视为一种脑力工作。如果要去用计算机解决这个问题，则被看做一种暴力问题。</p>
+<p>对于这些相互关系，我们可以用若干个二维数组去存储。</p>
+<p>比如说P1784 数独，这一题，我们只需要用一个数组 <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>h</mi><mo>[</mo><mi>i</mi><mo>]</mo><mo>[</mo><mi>n</mi><mi>u</mi><mi>m</mi><mo>]</mo></mrow><annotation encoding="application/x-tex">h[i][num]</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault">h</span><span class="mopen">[</span><span class="mord mathdefault">i</span><span class="mclose">]</span><span class="mopen">[</span><span class="mord mathdefault">n</span><span class="mord mathdefault">u</span><span class="mord mathdefault">m</span><span class="mclose">]</span></span></span></span> 去表示第 <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>i</mi></mrow><annotation encoding="application/x-tex">i</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.65952em;vertical-align:0em;"></span><span class="mord mathdefault">i</span></span></span></span> 行可否放 <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>n</mi><mi>u</mi><mi>m</mi></mrow><annotation encoding="application/x-tex">num</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathdefault">n</span><span class="mord mathdefault">u</span><span class="mord mathdefault">m</span></span></span></span> 数字，用一个数组 <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>l</mi><mo>[</mo><mi>i</mi><mo>]</mo><mo>[</mo><mi>n</mi><mi>u</mi><mi>m</mi><mo>]</mo></mrow><annotation encoding="application/x-tex">l[i][num]</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.01968em;">l</span><span class="mopen">[</span><span class="mord mathdefault">i</span><span class="mclose">]</span><span class="mopen">[</span><span class="mord mathdefault">n</span><span class="mord mathdefault">u</span><span class="mord mathdefault">m</span><span class="mclose">]</span></span></span></span> 去表示第 <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>i</mi></mrow><annotation encoding="application/x-tex">i</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.65952em;vertical-align:0em;"></span><span class="mord mathdefault">i</span></span></span></span> 列可否放 <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>n</mi><mi>u</mi><mi>m</mi></mrow><annotation encoding="application/x-tex">num</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathdefault">n</span><span class="mord mathdefault">u</span><span class="mord mathdefault">m</span></span></span></span> 数字，然后再用一个 <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>g</mi><mo>[</mo><mi>i</mi><mo>]</mo><mo>[</mo><mi>n</mi><mi>u</mi><mi>m</mi><mo>]</mo></mrow><annotation encoding="application/x-tex">g[i][num]</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.03588em;">g</span><span class="mopen">[</span><span class="mord mathdefault">i</span><span class="mclose">]</span><span class="mopen">[</span><span class="mord mathdefault">n</span><span class="mord mathdefault">u</span><span class="mord mathdefault">m</span><span class="mclose">]</span></span></span></span> 来表示第 <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>i</mi></mrow><annotation encoding="application/x-tex">i</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.65952em;vertical-align:0em;"></span><span class="mord mathdefault">i</span></span></span></span> 个九宫格中，可不可以放 <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>n</mi><mi>u</mi><mi>m</mi></mrow><annotation encoding="application/x-tex">num</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathdefault">n</span><span class="mord mathdefault">u</span><span class="mord mathdefault">m</span></span></span></span>数字。</p>
+<p>其实，在没看题解之前，我是用的一个三维数组描述可否放置的关系的，我是用的 <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>b</mi><mo>[</mo><mi>i</mi><mo>]</mo><mo>[</mo><mi>j</mi><mo>]</mo><mo>[</mo><mi>n</mi><mi>u</mi><mi>m</mi><mo>]</mo></mrow><annotation encoding="application/x-tex">b[i][j][num]</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault">b</span><span class="mopen">[</span><span class="mord mathdefault">i</span><span class="mclose">]</span><span class="mopen">[</span><span class="mord mathdefault" style="margin-right:0.05724em;">j</span><span class="mclose">]</span><span class="mopen">[</span><span class="mord mathdefault">n</span><span class="mord mathdefault">u</span><span class="mord mathdefault">m</span><span class="mclose">]</span></span></span></span> 来表示在 <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mo>(</mo><mi>i</mi><mo separator="true">,</mo><mi>j</mi><mo>)</mo></mrow><annotation encoding="application/x-tex">(i,j)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord mathdefault">i</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathdefault" style="margin-right:0.05724em;">j</span><span class="mclose">)</span></span></span></span> 这个位置上，可不可以放置 <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>n</mi><mi>u</mi><mi>m</mi></mrow><annotation encoding="application/x-tex">num</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathdefault">n</span><span class="mord mathdefault">u</span><span class="mord mathdefault">m</span></span></span></span> 的。这种方法为什么不好。仔细思考后会发现，一个 <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>b</mi><mo>[</mo><mi>i</mi><mo>]</mo><mo>[</mo><mi>j</mi><mo>]</mo><mo>[</mo><mi>n</mi><mi>u</mi><mi>m</mi><mo>]</mo></mrow><annotation encoding="application/x-tex">b[i][j][num]</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault">b</span><span class="mopen">[</span><span class="mord mathdefault">i</span><span class="mclose">]</span><span class="mopen">[</span><span class="mord mathdefault" style="margin-right:0.05724em;">j</span><span class="mclose">]</span><span class="mopen">[</span><span class="mord mathdefault">n</span><span class="mord mathdefault">u</span><span class="mord mathdefault">m</span><span class="mclose">]</span></span></span></span> 是关乎着它的行和列的，所以说，有很多地方可以更改这个数据，当我回溯的时候我并不知道这一个是我更改过的吗，所以这种方法并不是很好。同时，这种方法对于九宫格的逐一打标记是比较繁琐的。</p>
+<p>好的，讲完了理论部分，那么开始实践部分吧。</p>
+<p>先从一道黄题开始。<img src="https://www.luogu.com.cn/problem/P1784" alt="题目传送门" loading="lazy"><br>
+直截了当，就是数独。</p>
+<p>抱着侥幸的心态，没有写优化，直接上，结果AC了，其实这道题目并不是特别需要优化。</p>
+<p>那好，直接上die码：</p>
+<pre><code class="language-cpp">#include &lt;bits/stdc++.h&gt;
+#define pb push_back
+using namespace std;
+template &lt;typename T&gt;inline void read(T&amp; t){
+    t=0; register char ch=getchar();
+    while(!('0'&lt;=ch&amp;&amp;ch&lt;='9')){if(ch=='-') t=-1;ch=getchar();}
+    while(('0'&lt;=ch&amp;&amp;ch&lt;='9')){t=((t&lt;&lt;1)+(t&lt;&lt;3))+ch-'0'; ch=getchar();}
+}
+template &lt;typename T,typename... Args&gt; inline void read(T&amp; t, Args&amp;... args){
+    read(t);read(args...);
+}
+template &lt;typename T&gt;inline void write(T x){
+    if(x&lt;0) putchar('-'),x=~(x-1); int s[40],top=0;
+    while(x) s[++top]=x%10,x/=10; if(!top) s[++top]=0;
+    while(top) putchar(s[top--]+'0');
+}
+const int n=9;
+int h[11][11],l[11][11],g[11][11],a[11][11];
+inline int gg(int x,int y){
+    return (x-1)/3*3+(y-1)/3+1;
+}
+void Print(){
+    for(int i=1;i&lt;=n;++i){
+        for(int j=1;j&lt;=n;++j)
+            cout&lt;&lt;a[i][j]&lt;&lt;' ';
+        cout&lt;&lt;endl;
+    }
+    exit(0);
+}
+void dfs(int x,int y){
+    if(x&gt;n) dfs(1,y+1);
+    if(y&gt;n){
+        Print();
+        exit(0);
+    }
+    if(a[x][y]){
+        dfs(x+1,y);
+        return;
+    }
+    for(int num=1;num&lt;=9;++num){
+        if(h[x][num]&amp;&amp;l[y][num]&amp;&amp;g[gg(x,y)][num]){
+            a[x][y]=num;
+            h[x][num]=l[y][num]=g[gg(x,y)][num]=0;
+            dfs(x+1,y);
+            h[x][num]=l[y][num]=g[gg(x,y)][num]=1;
+            a[x][y]=0;
+        }
+    }
+}
+int main(){
+    memset(h,1,sizeof(h));
+    memset(l,1,sizeof(l));
+    memset(g,1,sizeof(g));
+    for(int i=1;i&lt;=n;++i)
+        for(int j=1;j&lt;=n;++j){
+            cin&gt;&gt;a[i][j];
+            if(a[i][j]!=0) h[i][a[i][j]]=l[j][a[i][j]]=g[gg(i,j)][a[i][j]]=0;
+        }
+    dfs(1,1);
+    return 0;
+}
+//(x-1)/3*3+(y-1)/3+1
+</code></pre>
+<p>这个题目只要求搜到满足条件的唯一一个解就ok了，所以时间复杂度不是那么假。在中途就可能终止程序。<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mn>79</mn><mi>m</mi><mi>s</mi></mrow><annotation encoding="application/x-tex">79ms</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">7</span><span class="mord">9</span><span class="mord mathdefault">m</span><span class="mord mathdefault">s</span></span></span></span> 其实很快了。</p>
+<p>根据这个思路，顺着出题者的<span class='katex-error' title='ParseError: KaTeX parse error: Undefined control sequence: \fout at position 1: \̲f̲o̲u̲t̲{尿性}'>\fout{尿性}</span>思路，我们可以稍微调整一下搜索顺序，原来是对于每一位的思考，从1到9，那么我偏偏反着来，从9到1。</p>
+<p>其实数据随机根本优化不了多少，但是这题优化的比较多吧。一个点优化了50ms<br>
+总计 <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mn>21</mn><mi>m</mi><mi>s</mi></mrow><annotation encoding="application/x-tex">21ms</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">2</span><span class="mord">1</span><span class="mord mathdefault">m</span><span class="mord mathdefault">s</span></span></span></span> 。</p>
+<p>好，现在上第二题，循序渐进，第二题来个蓝题：<img src="https://www.luogu.com.cn/problem/P1074" alt="题目传送门" loading="lazy"><br>
+其实感觉难度虚高。</p>
+<p>对于这一题，我们其实只需要搜完，然后按照答案的方式取一个最大值。但是剪枝，以及搜索顺序的思考要考虑完整。这题感觉没有最优性剪枝等，所以主要是从搜索顺序上优化。</p>
+<h4 id="无优化">无优化</h4>
+<p>这一种方法简单，就是上一题的加权求答案版本。但是过了这一题（非常勉强）。<br>
+不多说，直接上die码：、</p>
+<pre><code class="language-cpp">#include &lt;bits/stdc++.h&gt;
+#define pb push_back
+using namespace std;
+template &lt;typename T&gt;inline void read(T&amp; t){
+    t=0; register char ch=getchar();
+    while(!('0'&lt;=ch&amp;&amp;ch&lt;='9')){if(ch=='-') t=-1;ch=getchar();}
+    while(('0'&lt;=ch&amp;&amp;ch&lt;='9')){t=((t&lt;&lt;1)+(t&lt;&lt;3))+ch-'0'; ch=getchar();}
+}
+template &lt;typename T,typename... Args&gt; inline void read(T&amp; t, Args&amp;... args){
+    read(t);read(args...);
+}
+template &lt;typename T&gt;inline void write(T x){
+    if(x&lt;0) putchar('-'),x=~(x-1); int s[40],top=0;
+    while(x) s[++top]=x%10,x/=10; if(!top) s[++top]=0;
+    while(top) putchar(s[top--]+'0');
+}
+inline int gg(int x,int y){
+    return (x-1)/3*3+(y-1)/3+1;
+}
+bool h[11][11],l[11][11],g[11][11];
+vector&lt;int&gt;p;
+const int n=9;
+int a[11][11];
+int ans=0;
+int xs[11][11]={{0,0,0,0,0,0,0,0,0,0},{0,6,6,6,6,6,6,6,6,6},{0,6,7,7,7,7,7,7,7,6},{0,6,7,8,8,8,8,8,7,6},{0,6,7,8,9,9,9,8,7,6},{0,6,7,8,9,10,9,8,7,6},{0,6,7,8,9,9,9,8,7,6},{0,6,7,8,8,8,8,8,7,6},{0,6,7,7,7,7,7,7,7,6},{0,6,6,6,6,6,6,6,6,6}};
+void dfs(int x,int y,int score){
+    if(x&gt;n) dfs(1,y+1,score);
+    if(y&gt;n){
+        ans=max(score,ans);
+        return;
+    }
+    if(a[x][y]){dfs(x+1,y,score+a[x][y]*xs[x][y]);
+return;}
+    for(register int num=1;num&lt;=9;++num)
+        if(h[x][num]&amp;&amp;l[y][num]&amp;&amp;g[gg(x,y)][num]){
+            //说明这一位可以放上num
+            h[x][num]=l[y][num]=g[gg(x,y)][num]=0;
+            dfs(x+1,y,score+num*xs[x][y]);
+            h[x][num]=l[y][num]=g[gg(x,y)][num]=1;
+        }
+}
+int main(){
+    memset(h,1,sizeof(h));
+    memset(l,1,sizeof(l));
+    memset(g,1,sizeof(g));
+    for(register int i=1;i&lt;=n;++i)
+        for(register int j=1;j&lt;=n;++j){
+            read(a[i][j]);
+            h[i][a[i][j]]=l[j][a[i][j]]=g[gg(i,j)][a[i][j]]=(a[i][j]==0);
+        }
+    dfs(1,1,0);
+    cout&lt;&lt;((ans==0)?-1:ans)&lt;&lt;endl;
+    return 0;
+}
+//(x-1)/3*3+(y-1)/3+1
+</code></pre>
+<p>这一种方法跑的非常慢，差一点点TLE <img src="https://www.luogu.com.cn/record/52609199" alt="测评记录" loading="lazy"></p>
+<h4 id="way1-行优化">Way1 行优化</h4>
+<p>这一种有很多思考的点。</p>
+<p>为什么这种优化会优化。很多谷民都提出了这个问题，经过一段时间的研究后，我得出了原因所在。<br>
+假如说，现在我只要填一个 <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mn>3</mn><mo>×</mo><mn>3</mn></mrow><annotation encoding="application/x-tex">3×3</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.72777em;vertical-align:-0.08333em;"></span><span class="mord">3</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">3</span></span></span></span> 的数独，如下图。<br>
+<img src="https://imgtu.com/i/RLxQv4" alt="" loading="lazy"></p>
+<p>好的，现在这个图，肯定最少数字的点肯定是第一行这个，如果我现在填上了它，第二行第二个的也可以确定下来。所以说，这种思路是比较快的。<br>
+主要的误区在于要从填写这个数独的角度，而不是分数的角度考虑。</p>
+<p>所以说，这种算法是比较快的（<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mn>966</mn><mi>m</mi><mi>s</mi></mrow><annotation encoding="application/x-tex">966ms</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">9</span><span class="mord">6</span><span class="mord">6</span><span class="mord mathdefault">m</span><span class="mord mathdefault">s</span></span></span></span>）。</p>
+<p>值得一提的是，我同样用了上面一题的方法（改变搜索顺序）尝试，其实是变慢了( <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mn>977</mn><mi>m</mi><mi>s</mi></mrow><annotation encoding="application/x-tex">977ms</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">9</span><span class="mord">7</span><span class="mord">7</span><span class="mord mathdefault">m</span><span class="mord mathdefault">s</span></span></span></span> )，按道理不会变慢，可能是评测姬波动。但是，其实全部搜索结束的时候，搜索顺序的变化是没有用的。</p>
+<p>下面上die码：</p>
+<pre><code class="language-cpp">#include &lt;bits/stdc++.h&gt;
+#define pb push_back
+using namespace std;
+template &lt;typename T&gt;inline void read(T&amp; t){
+    t=0; register char ch=getchar();
+    while(!('0'&lt;=ch&amp;&amp;ch&lt;='9')){if(ch=='-') t=-1;ch=getchar();}
+    while(('0'&lt;=ch&amp;&amp;ch&lt;='9')){t=((t&lt;&lt;1)+(t&lt;&lt;3))+ch-'0'; ch=getchar();}
+}
+template &lt;typename T,typename... Args&gt; inline void read(T&amp; t, Args&amp;... args){
+    read(t);read(args...);
+}
+template &lt;typename T&gt;inline void write(T x){
+    if(x&lt;0) putchar('-'),x=~(x-1); int s[40],top=0;
+    while(x) s[++top]=x%10,x/=10; if(!top) s[++top]=0;
+    while(top) putchar(s[top--]+'0');
+}
+inline int gg(int x,int y){
+    return (x-1)/3*3+(y-1)/3+1;
+}
+struct Info{
+    int x,s;
+    bool operator &lt;(const Info &amp;info) const {
+        return s&lt;info.s;
+    }
+};
+bool h[11][11],l[11][11],g[11][11];
+const int n=9;
+int a[11][11];
+vector&lt;Info&gt;p;
+int ans=0;
+int xs[11][11]={{0,0,0,0,0,0,0,0,0,0},{0,6,6,6,6,6,6,6,6,6},{0,6,7,7,7,7,7,7,7,6},{0,6,7,8,8,8,8,8,7,6},{0,6,7,8,9,9,9,8,7,6},{0,6,7,8,9,10,9,8,7,6},{0,6,7,8,9,9,9,8,7,6},{0,6,7,8,8,8,8,8,7,6},{0,6,7,7,7,7,7,7,7,6},{0,6,6,6,6,6,6,6,6,6}};
+void dfs(int x,int y,int score,int dep){
+    if(y&gt;n) dfs(p[dep+1].x,1,score,dep+1);
+    if(dep==9){
+        ans=max(ans,score);
+        return;
+    }
+    if(a[x][y]){
+        dfs(x,y+1,score+a[x][y]*xs[x][y],dep);
+        return;
+    }
+    for(register int num=1;num&lt;=9;++num)
+        if(h[x][num]&amp;&amp;l[y][num]&amp;&amp;g[gg(x,y)][num]){
+            //说明这一位可以放上num
+            h[x][num]=0;l[y][num]=0;g[gg(x,y)][num]=0;
+            dfs(x,y+1,score+num*xs[x][y],dep);
+            h[x][num]=1;l[y][num]=1;g[gg(x,y)][num]=1;
+        }
+}
+int main(){
+    memset(h,1,sizeof(h));
+    memset(l,1,sizeof(l));
+    memset(g,1,sizeof(g));
+    for(register int i=1;i&lt;=n;++i)
+        for(register int j=1;j&lt;=n;++j){
+            read(a[i][j]);
+            h[i][a[i][j]]=l[j][a[i][j]]=g[gg(i,j)][a[i][j]]=(a[i][j]==0);
+        }
+    for(register int i=1;i&lt;=n;++i){
+        int sum=0;
+        for(register int j=1;j&lt;=n;++j){
+            for(register int k=1;k&lt;=n;++k)
+                if(h[i][k]&amp;&amp;l[j][k]&amp;&amp;g[gg(i,j)][k]) ++sum;
+        }
+        p.push_back({i,sum});
+    }
+    sort(p.begin(),p.end());
+    dfs(p[0].x,1,0,0);
+    cout&lt;&lt;((ans==0)?-1:ans)&lt;&lt;endl;
+    return 0;
+}
+//(x-1)/3*3+(y-1)/3+1
+</code></pre>
+<h4 id="way2从输入的时候填写方法少的地方开始搜索">Way2：从输入的时候填写方法少的地方开始搜索</h4>
+<p><strong>注意，这种方法并不是正解，TLE90pts</strong><br>
+这种方法很假，这里讲一下，为什么会假。首先，对于这种方法，并没有动态性，就是说，我一开始填写方法少，并不代表后来填写的方法会少，所以说这种方法并不是很好。</p>
+<p>并且，这种方式其实和随机搜索是差不多的，还加上了一开始处理的常数，其实是一种错解。</p>
+<p>这里出示die码，仅供思考。</p>
+<pre><code class="language-cpp">#include &lt;bits/stdc++.h&gt;
+#define pb push_back
+using namespace std;
+template &lt;typename T&gt;inline void read(T&amp; t){
+    t=0; register char ch=getchar();
+    while(!('0'&lt;=ch&amp;&amp;ch&lt;='9')){if(ch=='-') t=-1;ch=getchar();}
+    while(('0'&lt;=ch&amp;&amp;ch&lt;='9')){t=((t&lt;&lt;1)+(t&lt;&lt;3))+ch-'0'; ch=getchar();}
+}
+template &lt;typename T,typename... Args&gt; inline void read(T&amp; t, Args&amp;... args){
+    read(t);read(args...);
+}
+template &lt;typename T&gt;inline void write(T x){
+    if(x&lt;0) putchar('-'),x=~(x-1); int s[40],top=0;
+    while(x) s[++top]=x%10,x/=10; if(!top) s[++top]=0;
+    while(top) putchar(s[top--]+'0');
+}
+inline int gg(int x,int y){
+    return (x-1)/3*3+(y-1)/3+1;
+}
+struct Info{
+    int x,y,s;
+    bool operator &lt;(const Info &amp;info) const {
+        return s&lt;info.s;
+    }
+};
+bool h[11][11],l[11][11],g[11][11];
+const int n=9;
+int a[11][11];
+vector&lt;Info&gt;p;
+int ans=0;
+int xs[11][11]={{0,0,0,0,0,0,0,0,0,0},{0,6,6,6,6,6,6,6,6,6},{0,6,7,7,7,7,7,7,7,6},{0,6,7,8,8,8,8,8,7,6},{0,6,7,8,9,9,9,8,7,6},{0,6,7,8,9,10,9,8,7,6},{0,6,7,8,9,9,9,8,7,6},{0,6,7,8,8,8,8,8,7,6},{0,6,7,7,7,7,7,7,7,6},{0,6,6,6,6,6,6,6,6,6}};
+void dfs(int score,int dep){
+    if(dep==81){
+        ans=max(ans,score);
+        return;
+    }
+    int x=p[dep].x,y=p[dep].y;
+    if(a[x][y]){dfs(score+a[x][y]*xs[x][y],dep+1);
+return;}
+    for(register int num=1;num&lt;=9;++num)
+        if(h[x][num]&amp;&amp;l[y][num]&amp;&amp;g[gg(x,y)][num]){
+            //说明这一位可以放上num
+            h[x][num]=0;l[y][num]=0;g[gg(x,y)][num]=0;
+            dfs(score+num*xs[x][y],dep+1);
+            h[x][num]=1;l[y][num]=1;g[gg(x,y)][num]=1;
+        }
+}
+int main(){
+    memset(h,1,sizeof(h));
+    memset(l,1,sizeof(l));
+    memset(g,1,sizeof(g));
+    for(register int i=1;i&lt;=n;++i)
+        for(register int j=1;j&lt;=n;++j){
+            read(a[i][j]);
+            h[i][a[i][j]]=l[j][a[i][j]]=g[gg(i,j)][a[i][j]]=(a[i][j]==0);
+        }
+    for(register int i=1;i&lt;=n;++i){
+        for(register int j=1;j&lt;=n;++j){
+            int sum=0;
+            for(register int k=1;k&lt;=n;++k)
+                if(h[i][k]&amp;&amp;l[j][k]&amp;&amp;g[gg(i,j)][k]) ++sum;
+            p.push_back({i,j,sum});
+        }
+    }
+    sort(p.begin(),p.end());
+    dfs(0,0);
+    cout&lt;&lt;((ans==0)?-1:ans)&lt;&lt;endl;
+    return 0;
+}
+//(x-1)/3*3+(y-1)/3+1
+</code></pre>
+
+              </div>
+              <div class="toc-container">
+                <ul class="markdownIt-TOC">
+<li>
+<ul>
+<li>
+<ul>
+<li>
+<ul>
+<li><a href="#%E6%97%A0%E4%BC%98%E5%8C%96">无优化</a></li>
+<li><a href="#way1-%E8%A1%8C%E4%BC%98%E5%8C%96">Way1 行优化</a></li>
+<li><a href="#way2%E4%BB%8E%E8%BE%93%E5%85%A5%E7%9A%84%E6%97%B6%E5%80%99%E5%A1%AB%E5%86%99%E6%96%B9%E6%B3%95%E5%B0%91%E7%9A%84%E5%9C%B0%E6%96%B9%E5%BC%80%E5%A7%8B%E6%90%9C%E7%B4%A2">Way2：从输入的时候填写方法少的地方开始搜索</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+              </div>
+            </div>
+          </article>
+        </div>
+
+        
+          <div class="next-post">
+            <div class="next">下一篇</div>
+            <a href="https://mercurycity.github.io/post/ren-sheng-di-yi-dao-jiao-hu-ti-luo-gu-p1947-cai-shu-ge-ren-ti-jie/">
+              <h3 class="post-title">
+                人生第一道交互题！洛谷P1947 猜数 个人题解
+              </h3>
+            </a>
+          </div>
+        
+
+        
+
+        <div class="site-footer">
+  山登绝顶我为峰！
+  <a class="rss" href="https://mercurycity.github.io/atom.xml" target="_blank">
+    <i class="ri-rss-line"></i> RSS
+  </a>
+</div>
+
+      </div>
+    </div>
+
+    <script>
+      hljs.initHighlightingOnLoad()
+
+      let mainNavLinks = document.querySelectorAll(".markdownIt-TOC a");
+
+      // This should probably be throttled.
+      // Especially because it triggers during smooth scrolling.
+      // https://lodash.com/docs/4.17.10#throttle
+      // You could do like...
+      // window.addEventListener("scroll", () => {
+      //    _.throttle(doThatStuff, 100);
+      // });
+      // Only not doing it here to keep this Pen dependency-free.
+
+      window.addEventListener("scroll", event => {
+        let fromTop = window.scrollY;
+
+        mainNavLinks.forEach((link, index) => {
+          let section = document.getElementById(decodeURI(link.hash).substring(1));
+          let nextSection = null
+          if (mainNavLinks[index + 1]) {
+            nextSection = document.getElementById(decodeURI(mainNavLinks[index + 1].hash).substring(1));
+          }
+          if (section.offsetTop <= fromTop) {
+            if (nextSection) {
+              if (nextSection.offsetTop > fromTop) {
+                link.classList.add("current");
+              } else {
+                link.classList.remove("current");    
+              }
+            } else {
+              link.classList.add("current");
+            }
+          } else {
+            link.classList.remove("current");
+          }
+        });
+      });
+
+    </script>
+  </body>
+</html>
