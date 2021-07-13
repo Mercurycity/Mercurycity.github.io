@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://mercurycity.github.io</id>
     <title>Mercury的小屋</title>
-    <updated>2021-07-08T07:40:28.147Z</updated>
+    <updated>2021-07-13T03:42:50.664Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://mercurycity.github.io"/>
     <link rel="self" href="https://mercurycity.github.io/atom.xml"/>
@@ -10,6 +10,399 @@
     <logo>https://mercurycity.github.io/images/avatar.png</logo>
     <icon>https://mercurycity.github.io/favicon.ico</icon>
     <rights>All rights reserved 2021, Mercury的小屋</rights>
+    <entry>
+        <title type="html"><![CDATA[关于树形dp的专题探究]]></title>
+        <id>https://mercurycity.github.io/post/guan-yu-shu-xing-dp-de-zhuan-ti-tan-jiu/</id>
+        <link href="https://mercurycity.github.io/post/guan-yu-shu-xing-dp-de-zhuan-ti-tan-jiu/">
+        </link>
+        <updated>2021-07-13T03:09:57.000Z</updated>
+        <content type="html"><![CDATA[<p>2021夏令营刚好学了树形dp，很有感觉，所以专门写一个关于树形dp的专题探究。</p>
+<p>好，首先树形dp的关键的框架。</p>
+<pre><code class="language-cpp">void dfs(int u,int fa){
+    ///Do something
+    for(int i=0;i&lt;a[u].size();++i){
+        //Do something
+        int v=a[u][i];
+        if(v==fa) continue;
+        //Do something
+    }
+    return;
+}
+</code></pre>
+<p>这个框架真的很有用。</p>
+<p>树形dp的主要关系就在于处理一下一个节点和他儿子所要求的东西的关系。</p>
+<p>上来点题目试试！</p>
+<h2 id="树的直径简化版">树的直径(简化版)</h2>
+<h4 id="题目描述">题目描述</h4>
+<p>小Q最近学习了一些图论知识。根据课本，有如下定义。树：无回路且连通的无向图，每条边都有正整数的权值来表示其长度。如果一棵树有N个节点，可以证明其有且仅有N-1 条边。 路径：一棵树上，任意两个节点之间最多有一条简单路径。我们用 dis(a,b)表示点a和点b的路径上各边长度之和。称dis(a,b)为a、b两个节点间的距离。<br>
+直径：一棵树上，最长的路径为树的直径。树的直径可能不是唯一的。<br>
+现在小Q想知道，对于给定的一棵树，其直径的长度是多少？（以及有多少条边满足所有的直径都经过该边，不需要计算，供思考 ）</p>
+<h4 id="输入格式">输入格式</h4>
+<p>第一行包含一个整数N，表示节点数。<br>
+接下来N-1行，每行三个整数a, b, c ，表示点 a和点b之间有一条长度为c的无向边。</p>
+<h4 id="输出格式">输出格式</h4>
+<p>一行一个整数，表示直径的长度。</p>
+<h4 id="数据范围与提示">数据范围与提示</h4>
+<p>对于100%的测试数据：2≤N≤200000，所有点的编号都在1..N的范围内，<br>
+边的权值≤10^9。</p>
+<h4 id="输入样例">输入样例</h4>
+<p>6<br>
+3 1 1000<br>
+1 4 10<br>
+4 2 100<br>
+4 5 50<br>
+4 6 100</p>
+<h4 id="输出样例">输出样例</h4>
+<p>1110</p>
+<h4 id="样例说明">样例说明</h4>
+<p>直径共有两条，3 到2的路径和3到6的路径。这两条直径都经过边(3, 1)和边(1, 4)。</p>
+<h4 id="思路">思路</h4>
+<p>模板题，树的直径。</p>
+<p>考虑的是 <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>f</mi><mo>[</mo><mi>u</mi><mo>]</mo></mrow><annotation encoding="application/x-tex">f[u]</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.10764em;">f</span><span class="mopen">[</span><span class="mord mathdefault">u</span><span class="mclose">]</span></span></span></span> 表示现在在 <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>u</mi></mrow><annotation encoding="application/x-tex">u</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathdefault">u</span></span></span></span> 点的往下的最长的一条链。</p>
+<p>现在考虑一下第二问怎么解答，虽然他并没有要求解答。有多少条直径，那么我现在先保存一个最大值，然后判断这个最大值被更新过多少次就ok了。</p>
+<p>上die码：</p>
+<pre><code class="language-cpp">#include &lt;bits/stdc++.h&gt;
+using namespace std;
+template &lt;typename T&gt;inline void read(T&amp; t){
+    t=0; register char ch=getchar();
+    while(!('0'&lt;=ch&amp;&amp;ch&lt;='9')){if(ch=='-') t=-1;ch=getchar();}
+    while(('0'&lt;=ch&amp;&amp;ch&lt;='9')){t=((t&lt;&lt;1)+(t&lt;&lt;3))+ch-'0'; ch=getchar();}
+}
+template &lt;typename T,typename... Args&gt; inline void read(T&amp; t, Args&amp;... args){
+    read(t);read(args...);
+}
+template &lt;typename T&gt;inline void write(T x){
+    if(x&lt;0) putchar('-'),x=~(x-1); int s[40],top=0;
+    while(x) s[++top]=x%10,x/=10; if(!top) s[++top]=0;
+    while(top) putchar(s[top--]+'0');
+}
+long long dis[314514],n,m;
+char ch;
+vector&lt;pair&lt;int,int&gt; &gt;a[314514];
+long long ans;
+void dfs(int u,int fa){
+    for(int i=0;i&lt;a[u].size();++i){
+        int v=a[u][i].first;
+        if(v==fa) continue;
+        dfs(v,u);
+        ans=max(ans,a[u][i].second+dis[v]+dis[u]);
+        dis[u]=max(dis[v]+a[u][i].second,dis[u]);
+    }
+}
+int main(){
+    cin&gt;&gt;n;
+    for(int i=1;i&lt;n;++i){
+        int x,y,w;
+        read(x,y,w);
+        a[x].push_back(make_pair(y,w));
+        a[y].push_back(make_pair(x,w));
+    }
+    dfs(1,-1);
+    cout&lt;&lt;ans&lt;&lt;endl;
+    return 0;
+}
+</code></pre>
+<h2 id="电脑网络">电脑网络</h2>
+<h4 id="题目描述-2">题目描述</h4>
+<p>一所学校在几年前购进了第一台电脑（这台电脑的编号为1）。最近几年，学校又购买了N-1台电脑，每台新电脑和之前的某一台电脑连接。学校的管理员想知道对于每一台电脑i，到与它距离最远的电脑的距离Si。你需要提供这个信息。<br>
+<img src="https://z3.ax1x.com/2021/07/13/WkN65d.png" alt="" loading="lazy"><br>
+Hint: 样例输入如上图所示，从图中你可以知道，4号电脑到1号电脑的距离最远，所以S1=3。4号电脑和5号电脑到2号电脑的距离最远，所以S2=2。5号电脑到3号电脑距离最远，所以S3=3。由此类推S4=4，S5=4。</p>
+<h4 id="输入格式-2">输入格式</h4>
+<p>第一行包含一个整数N (N&lt;=10000) ；<br>
+接下来N-1行描述每一台电脑。第i行包含两个用空格隔开的整数y、l，表示i号电脑与之前的y号电脑连接，距离为l。<br>
+所有l之和不超过10^9。</p>
+<h4 id="输出格式-2">输出格式</h4>
+<p>对于每组测试数据输出N行，第i行表示离i号电脑的最远距离Si。</p>
+<h4 id="样例输入">样例输入</h4>
+<p>5<br>
+1 1<br>
+2 1<br>
+3 1<br>
+1 1</p>
+<h4 id="样例输出">样例输出</h4>
+<p>3<br>
+2<br>
+3<br>
+4<br>
+4</p>
+<h4 id="思路-2">思路</h4>
+<p>这道题目运用了我认为一个巧妙的结论，在讲树的直径的时候也讲过了。</p>
+<p>原来求树的直径，从一个点到他最远的点，然后再从那个最远的点到相对于它来说最远的点。</p>
+<p>这说明什么，一个点到它最远的点肯定在树的直径的端点上。</p>
+<p>那么就好办了，直接用三次dfs，第一次找到一个端点，第二次找到两个端点顺便记录一下从第一个找到端点到所有点的距离，第三次记录第二个找到的端点到所有点的距离，最后在两个距离里面取一个最大值就ok了。</p>
+<h4 id="蒟蒻die码">蒟蒻die码：</h4>
+<pre><code class="language-cpp">#include &lt;bits/stdc++.h&gt;
+#define pb push_back
+using namespace std;
+template &lt;typename T&gt;inline void read(T&amp; t){
+    t=0; register char ch=getchar();
+    while(!('0'&lt;=ch&amp;&amp;ch&lt;='9')){if(ch=='-') t=-1;ch=getchar();}
+    while(('0'&lt;=ch&amp;&amp;ch&lt;='9')){t=((t&lt;&lt;1)+(t&lt;&lt;3))+ch-'0'; ch=getchar();}
+}
+template &lt;typename T,typename... Args&gt; inline void read(T&amp; t, Args&amp;... args){
+    read(t);read(args...);
+}
+template &lt;typename T&gt;inline void write(T x){
+    if(x&lt;0) putchar('-'),x=~(x-1); int s[40],top=0;
+    while(x) s[++top]=x%10,x/=10; if(!top) s[++top]=0;
+    while(top) putchar(s[top--]+'0');
+}
+int n;
+int dis[114514];
+int dis1[114514];
+vector&lt;pair&lt;int,int&gt; &gt;a[114514];
+void dfs(int u,int fa){
+    for(int i=0;i&lt;a[u].size();++i){
+        int v=a[u][i].first;
+        if(v==fa) continue;
+        dis[v]=dis[u]+a[u][i].second;
+        dfs(v,u);
+    }
+}
+void dfs1(int u,int fa){
+    for(int i=0;i&lt;a[u].size();++i){
+        int v=a[u][i].first;
+        if(v==fa) continue;
+        dis1[v]=dis1[u]+a[u][i].second;
+        dfs1(v,u);
+    }
+}
+int main(){
+    cin&gt;&gt;n;
+    for(int i=2;i&lt;=n;++i){
+        int x,y;
+        read(x,y);
+        a[i].push_back(make_pair(x,y));
+        a[x].push_back(make_pair(i,y));
+    }
+    dfs(1,-1);
+    int maxn=0,maxnum=0;
+    for(int i=1;i&lt;=n;++i)
+        if(dis[i]&gt;maxn){
+            maxn=dis[i];
+            maxnum=i;
+        }
+    dfs1(maxnum,-1);
+    maxn=0,maxnum=0;
+    for(int i=1;i&lt;=n;++i)
+        if(dis1[i]&gt;maxn){
+            maxn=dis1[i];
+            maxnum=i;        
+        }
+    memset(dis,0,sizeof(dis));
+    dfs(maxnum,-1);
+    for(int i=1;i&lt;=n;++i)
+        cout&lt;&lt;max(dis[i],dis1[i])&lt;&lt;endl;
+    return 0;
+}
+</code></pre>
+<h2 id="医院设置">医院设置</h2>
+<h4 id="题目描述-3">题目描述</h4>
+<p>设有一棵二叉树（如图，其中圈中的数字表示结点中居民的人口，圈边上数字表示结点编号。现在要求在某个结点上建立一个医院，使所有居民所走的路程之和为最小，同时约定，相邻结点之间的距离为 1。就本图而言，若医院建在 1 处，则距离和 =4+12+220+240=136；若医院建在 3 处，则距离和 =4*2+13+20+40=81…<br>
+<img src="https://jsoi.jzhx.net/file/20200312030855_20200312.png" alt="" loading="lazy"></p>
+<h4 id="输入格式-3">输入格式</h4>
+<p>第一行一个整数 n，表示树的结点数(n≤100)。 接下来的 n 行每行描述了一个结点的状况，包含三个整数，整数之间用空格（一个或多个）分隔，其中：第一个数为居民人口数；第二个数为左链接，为 0 表示无链接；第三个数为右链接，为 0 表示无链接。</p>
+<h4 id="输出格式-3">输出格式</h4>
+<p>一个整数，表示最小距离和。</p>
+<h4 id="输入样例-2">输入样例</h4>
+<p>5<br>
+13 2 3<br>
+4 0 0<br>
+12 4 5<br>
+20 0 0<br>
+40 0 0</p>
+<h4 id="输出样例-2">输出样例</h4>
+<p>81</p>
+<h4 id="思路-3">思路</h4>
+<p>这道题数据量不是很大，才100，我现在用Floyd算法直接算答案都可以过，但是如果我这个数据在 <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mn>1</mn><mo>×</mo><mn>1</mn><msup><mn>0</mn><mn>6</mn></msup></mrow><annotation encoding="application/x-tex">1 \times 10^6</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.72777em;vertical-align:-0.08333em;"></span><span class="mord">1</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.8141079999999999em;vertical-align:0em;"></span><span class="mord">1</span><span class="mord"><span class="mord">0</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141079999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">6</span></span></span></span></span></span></span></span></span></span></span> ，那么就必须用我这种 <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>O</mi><mo>(</mo><mi>n</mi><mo>)</mo></mrow><annotation encoding="application/x-tex">O(n)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.02778em;">O</span><span class="mopen">(</span><span class="mord mathdefault">n</span><span class="mclose">)</span></span></span></span> 的办法了</p>
+<p>首先思考，如果我现在已经确定了医院的位置并且算好了结果。</p>
+<figure data-type="image" tabindex="1"><img src="https://z3.ax1x.com/2021/07/13/WkwfYQ.png" alt="" loading="lazy"></figure>
+<p>首先看这个图，表示了如果我现在医院就建在一号节点的情况，这样处理是 <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>O</mi><mo>(</mo><mi>n</mi><mo>)</mo></mrow><annotation encoding="application/x-tex">O(n)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.02778em;">O</span><span class="mopen">(</span><span class="mord mathdefault">n</span><span class="mclose">)</span></span></span></span> 的算法。</p>
+<p>然后，我现在医院变更了，</p>
+<figure data-type="image" tabindex="2"><img src="https://z3.ax1x.com/2021/07/13/WkwWFg.png" alt="" loading="lazy"></figure>
+<p>就像这个图，我现在医院变更了，可以看到，蓝色区域的节点都少走了已一步路，而其他节点都多走了一步路。</p>
+<p>这叫做换根操作。请出换根的终极公式：</p>
+<p class='katex-block'><span class="katex-display"><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>f</mi><mo>[</mo><mi>v</mi><mo>]</mo><mo>=</mo><mi>f</mi><mo>[</mo><mi>u</mi><mo>]</mo><mo>−</mo><mi>c</mi><mi>u</mi><mi>t</mi><mo>[</mo><mi>v</mi><mo>]</mo><mo>∗</mo><mn>2</mn><mo>+</mo><mi>c</mi><mi>u</mi><mi>t</mi><mo>[</mo><mi>u</mi><mo>]</mo></mrow><annotation encoding="application/x-tex">f[v]=f[u]-cut[v]*2+cut[u] 
+</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.10764em;">f</span><span class="mopen">[</span><span class="mord mathdefault" style="margin-right:0.03588em;">v</span><span class="mclose">]</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.10764em;">f</span><span class="mopen">[</span><span class="mord mathdefault">u</span><span class="mclose">]</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault">c</span><span class="mord mathdefault">u</span><span class="mord mathdefault">t</span><span class="mopen">[</span><span class="mord mathdefault" style="margin-right:0.03588em;">v</span><span class="mclose">]</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">∗</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.72777em;vertical-align:-0.08333em;"></span><span class="mord">2</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault">c</span><span class="mord mathdefault">u</span><span class="mord mathdefault">t</span><span class="mopen">[</span><span class="mord mathdefault">u</span><span class="mclose">]</span></span></span></span></span></p>
+<p>ok了，下面就上die码：</p>
+<pre><code class="language-cpp">#include &lt;bits/stdc++.h&gt;
+#define pb push_back
+using namespace std;
+template &lt;typename T&gt;inline void read(T&amp; t){
+    t=0; register char ch=getchar();
+    while(!('0'&lt;=ch&amp;&amp;ch&lt;='9')){if(ch=='-') t=-1;ch=getchar();}
+    while(('0'&lt;=ch&amp;&amp;ch&lt;='9')){t=((t&lt;&lt;1)+(t&lt;&lt;3))+ch-'0'; ch=getchar();}
+}
+template &lt;typename T,typename... Args&gt; inline void read(T&amp; t, Args&amp;... args){
+    read(t);read(args...);
+}
+template &lt;typename T&gt;inline void write(T x){
+    if(x&lt;0) putchar('-'),x=~(x-1); int s[40],top=0;
+    while(x) s[++top]=x%10,x/=10; if(!top) s[++top]=0;
+    while(top) putchar(s[top--]+'0');
+}
+int n;
+struct Node{
+    int p,lc,rc;
+}a[114514];
+int f[114514],s[114514];
+void dfs(int u,int s){
+    f[1]+=s*a[u].p;
+    if(a[u].lc) dfs(a[u].lc,s+1);
+    if(a[u].rc) dfs(a[u].rc,s+1);
+    return;
+}
+void dfss(int u,int fa){
+    s[u]=a[u].p;
+    if(a[u].lc){
+        dfss(a[u].lc,u);
+        s[u]+=s[a[u].lc];
+    }
+    if(a[u].rc){
+        dfss(a[u].rc,u);
+        s[u]+=s[a[u].rc];
+    }
+    return;
+}
+void ddfs(int u,int fa){
+    if(a[u].lc){
+        f[a[u].lc]=f[u]-2*s[a[u].lc]+s[1];
+        ddfs(a[u].lc,u);
+    }
+    if(a[u].rc){
+        f[a[u].rc]=f[u]-2*s[a[u].rc]+s[1];
+        ddfs(a[u].rc,u);
+    }
+}
+int main(){
+    cin&gt;&gt;n;
+    for(int i=1;i&lt;=n;++i) read(a[i].p,a[i].lc,a[i].rc);
+    dfs(1,0);
+    dfss(1,-1);
+    ddfs(1,-1);
+    int ans=0x3f3f3f3f;
+    for(int i=1;i&lt;=n;++i)
+        ans=min(ans,f[i]);
+    cout&lt;&lt;ans&lt;&lt;endl;
+    return 0;
+}
+</code></pre>
+<h2 id="noip2018-提高组赛道修建">「NOIP2018 提高组」赛道修建</h2>
+<h4 id="题目描述-4">题目描述</h4>
+<p>C 城将要举办一系列的赛车比赛。在比赛前，需要在城内修建 m 条赛道。</p>
+<p>C 城一共有 n 个路口，这些路口编号为 1,2,…,n，有 n−1条适合于修建赛道的双向通行的道路，每条道路连接着两个路口。其中，第 i 条道路连接的两个路口编号为 ai 和 bi，该道路的长度为 li。借助这 n−1 条道路，从任何一个路口出发都能到达其他所有的路口。</p>
+<p>一条赛道是一组互不相同的道路 e1,e2,…,ek，满足可以从某个路口出发，依次经过 道路 e1,e2,…,ek（每条道路经过一次，不允许调头）到达另一个路口。一条赛道的长度等于经过的各道路的长度之和。为保证安全，要求每条道路至多被一条赛道经过。</p>
+<p>目前赛道修建的方案尚未确定。你的任务是设计一种赛道修建的方案，使得修建的 m 条赛道中长度最小的赛道长度最大（即 m 条赛道中最短赛道的长度尽可能大）</p>
+<h4 id="输入格式-4">输入格式</h4>
+<p>第一行包含两个由空格分隔的正整数 n,m，分别表示路口数及需要修建的 赛道数。<br>
+接下来 n−1 行，第 i 行包含三个正整数 ai,bi,li，表示第 i 条适合于修建赛道的道 路连接的两个路口编号及道路长度。保证任意两个路口均可通过这 n−1 条道路相互到达。每行中相邻两数之间均由一个空格分隔。</p>
+<h4 id="输出格式-4">输出格式</h4>
+<p>输出共一行，包含一个整数，表示长度最小的赛道长度的最大值。</p>
+<h4 id="数据范围与提示-2">数据范围与提示</h4>
+<p><img src="https://jsoi.jzhx.net/file/20200312030614_20200312.png" alt="" loading="lazy"><br>
+其中，“分支不超过 3”的含义为：每个路口至多有 3 条道路与其相连。 对于所有的数据， <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mn>2</mn><mo>≤</mo><mi>n</mi><mo>≤</mo><mn>50</mn><mo separator="true">,</mo><mn>000</mn><mi mathvariant="normal">，</mi><mn>1</mn><mo>≤</mo><mi>m</mi><mo>≤</mo><mi>n</mi><mi mathvariant="normal">−</mi><mn>1</mn><mi mathvariant="normal">，</mi><mn>1</mn><mo>≤</mo><mi>a</mi><mi>i</mi><mo separator="true">,</mo><mi>b</mi><mi>i</mi><mo>≤</mo><mi>n</mi><mi mathvariant="normal">，</mi><mn>1</mn><mo>≤</mo><mi>l</mi><mi>i</mi><mo>≤</mo><mn>10</mn><mo separator="true">,</mo><mn>000</mn><mi mathvariant="normal">。</mi></mrow><annotation encoding="application/x-tex">2≤n≤50,000， 1≤m≤n−1， 1≤ai,bi≤n， 1≤li≤10,000。</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.78041em;vertical-align:-0.13597em;"></span><span class="mord">2</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">≤</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.7719400000000001em;vertical-align:-0.13597em;"></span><span class="mord mathdefault">n</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">≤</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.8388800000000001em;vertical-align:-0.19444em;"></span><span class="mord">5</span><span class="mord">0</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord">0</span><span class="mord">0</span><span class="mord">0</span><span class="mord cjk_fallback">，</span><span class="mord">1</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">≤</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.7719400000000001em;vertical-align:-0.13597em;"></span><span class="mord mathdefault">m</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">≤</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.78041em;vertical-align:-0.13597em;"></span><span class="mord mathdefault">n</span><span class="mord">−</span><span class="mord">1</span><span class="mord cjk_fallback">，</span><span class="mord">1</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">≤</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.8888799999999999em;vertical-align:-0.19444em;"></span><span class="mord mathdefault">a</span><span class="mord mathdefault">i</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathdefault">b</span><span class="mord mathdefault">i</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">≤</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.78041em;vertical-align:-0.13597em;"></span><span class="mord mathdefault">n</span><span class="mord cjk_fallback">，</span><span class="mord">1</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">≤</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.83041em;vertical-align:-0.13597em;"></span><span class="mord mathdefault" style="margin-right:0.01968em;">l</span><span class="mord mathdefault">i</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">≤</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.8388800000000001em;vertical-align:-0.19444em;"></span><span class="mord">1</span><span class="mord">0</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord">0</span><span class="mord">0</span><span class="mord">0</span><span class="mord cjk_fallback">。</span></span></span></span></p>
+<h4 id="输入样例-3">输入样例</h4>
+<p>7 1<br>
+1 2 10<br>
+1 3 5<br>
+2 4 9<br>
+2 5 8<br>
+3 6 6<br>
+3 7 7</p>
+<h4 id="输出样例-3">输出样例</h4>
+<p>31</p>
+<h4 id="思路-4">思路</h4>
+<p>说实话，这题太适合我了，是二分+树上dp的好题。</p>
+<p><span class="katex"><span class="katex-mathml"><math><semantics><mrow><menclose notation="horizontalstrike"><mrow><mi mathvariant="normal">如</mi><mi mathvariant="normal">果</mi><mi mathvariant="normal">这</mi><mi mathvariant="normal">题</mi><mi mathvariant="normal">能</mi><mi mathvariant="normal">是</mi><mn>2021</mn><mi>c</mi><mi>s</mi><mi>p</mi><mo>−</mo><mi>s</mi><mi mathvariant="normal">最</mi><mi mathvariant="normal">后</mi><mi mathvariant="normal">一</mi><mi mathvariant="normal">题</mi><mi mathvariant="normal">我</mi><mi mathvariant="normal">直</mi><mi mathvariant="normal">接</mi><mi mathvariant="normal">起</mi><mi mathvariant="normal">飞</mi></mrow></menclose></mrow><annotation encoding="application/x-tex">\sout{如果这题能是2021csp-s最后一题我直接起飞}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8388800000000001em;vertical-align:-0.19444em;"></span><span class="mord"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.6444400000000001em;"><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord cjk_fallback">如</span><span class="mord cjk_fallback">果</span><span class="mord cjk_fallback">这</span><span class="mord cjk_fallback">题</span><span class="mord cjk_fallback">能</span><span class="mord cjk_fallback">是</span><span class="mord">2</span><span class="mord">0</span><span class="mord">2</span><span class="mord">1</span><span class="mord mathdefault">c</span><span class="mord mathdefault">s</span><span class="mord mathdefault">p</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mord mathdefault">s</span><span class="mord cjk_fallback">最</span><span class="mord cjk_fallback">后</span><span class="mord cjk_fallback">一</span><span class="mord cjk_fallback">题</span><span class="mord cjk_fallback">我</span><span class="mord cjk_fallback">直</span><span class="mord cjk_fallback">接</span><span class="mord cjk_fallback">起</span><span class="mord cjk_fallback">飞</span></span></span><span style="top:-3.2155em;"><span class="pstrut" style="height:3em;"></span><span class="stretchy sout"></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.19444em;"><span></span></span></span></span></span></span></span></span></p>
+<p>不多说，首先看到要求的答案竟然是最小赛道长度的最大值，直接二分答案。将答案变为了判断性问题。</p>
+<p>我的left和right都是闭区间，是从left到right都可以成功，我认为这样理解更为简单。</p>
+<p>可以先去看那个只有3个分支的，那个是正解的弱化数据。<br>
+对于三个分支，我现在就只可能有父亲节点，双儿子节点，对于每一条路径，对答案的贡献最多是1，然后我只需要查看一下两个节点的最长链加起来是不是大于了我现在要判断的答案。</p>
+<p>题目还是很水的。</p>
+<pre><code class="language-cpp">#include &lt;bits/stdc++.h&gt;
+#define pb push_back
+using namespace std;
+template &lt;typename T&gt;inline void read(T&amp; t){
+    t=0; register char ch=getchar();
+    while(!('0'&lt;=ch&amp;&amp;ch&lt;='9')){if(ch=='-') t=-1;ch=getchar();}
+    while(('0'&lt;=ch&amp;&amp;ch&lt;='9')){t=((t&lt;&lt;1)+(t&lt;&lt;3))+ch-'0'; ch=getchar();}
+}
+template &lt;typename T,typename... Args&gt; inline void read(T&amp; t, Args&amp;... args){
+    read(t);read(args...);
+}
+template &lt;typename T&gt;inline void write(T x){
+    if(x&lt;0) putchar('-'),x=~(x-1); int s[40],top=0;
+    while(x) s[++top]=x%10,x/=10; if(!top) s[++top]=0;
+    while(top) putchar(s[top--]+'0');
+}
+int n,m;
+struct Edge{
+    int to,nxt,w;
+}e[114514];
+vector&lt;pair&lt;int,int&gt; &gt;a[114514];
+int s,cnt,pos;
+int h[114514];
+int f[114514];
+void add(int u,int v,int w){
+    e[++pos].to=v;
+    e[pos].w=w;
+    e[pos].nxt=h[u];
+    h[u]=pos;
+}
+void dfs(int u,int fa,int pos){
+    multiset&lt;int&gt;se;
+    for(int i=h[u];i;i=e[i].nxt){
+        int v=e[i].to,w=e[i].w;
+        if(v==fa) continue;
+        dfs(v,u,pos);
+        if(f[v]+w&gt;=pos){
+            cnt++;
+            continue;
+        }
+        se.insert(f[v]+w);
+    }
+    while(!se.empty()){
+        multiset&lt;int&gt;::iterator q=se.begin();
+        se.erase(q);
+        multiset&lt;int&gt;::iterator p=se.lower_bound(pos-*q);
+        if(p!=se.end()){
+            cnt++;
+            se.erase(p);
+        }else f[u]=max(f[u],*q);
+    }
+}
+bool check(int x){
+    memset(f,0,sizeof(f));
+    cnt=0;
+    dfs(1,-1,x);
+    if(cnt&gt;=m) return 1;
+    else return 0;
+}
+int main(){
+    cin&gt;&gt;n&gt;&gt;m;
+    for(int i=1;i&lt;n;++i){
+        int x,y,w;
+        read(x,y,w);
+        s+=w;
+        add(x,y,w);
+        add(y,x,w);
+    }
+    int left=1,right=s/m+1;
+    //left到right都可以
+    while(left&lt;right){
+        int mid=(left+right+1)&gt;&gt;1;
+        if(check(mid)) left=mid;
+        else right=mid-1;
+    }
+    cout&lt;&lt;left&lt;&lt;endl;
+    return 0;
+}
+//19+12 31 
+</code></pre>
+<p>这里可以不用领接表，但是我害怕还是写<span class="katex"><span class="katex-mathml"><math><semantics><mrow><menclose notation="horizontalstrike"><mi mathvariant="normal">抄</mi></menclose></mrow><annotation encoding="application/x-tex">\sout{抄}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.2555em;vertical-align:0em;"></span><span class="mord"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.2555em;"><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord cjk_fallback">抄</span></span></span><span style="top:-3.2155em;"><span class="pstrut" style="height:3em;"></span><span class="stretchy sout"></span></span></span></span></span></span></span></span></span>了一个。</p>
+<p>完结撒花！</p>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[对于数独问题的专题探究]]></title>
         <id>https://mercurycity.github.io/post/dui-yu-shu-du-wen-ti-de-zhuan-ti-tan-jiu/</id>
