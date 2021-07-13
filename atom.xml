@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://mercurycity.github.io</id>
     <title>Mercury的小屋</title>
-    <updated>2021-07-13T03:42:50.664Z</updated>
+    <updated>2021-07-13T04:58:17.746Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://mercurycity.github.io"/>
     <link rel="self" href="https://mercurycity.github.io/atom.xml"/>
@@ -483,7 +483,7 @@ int main(){
 //(x-1)/3*3+(y-1)/3+1
 </code></pre>
 <p>这个题目只要求搜到满足条件的唯一一个解就ok了，所以时间复杂度不是那么假。在中途就可能终止程序。<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mn>79</mn><mi>m</mi><mi>s</mi></mrow><annotation encoding="application/x-tex">79ms</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">7</span><span class="mord">9</span><span class="mord mathdefault">m</span><span class="mord mathdefault">s</span></span></span></span> 其实很快了。</p>
-<p>根据这个思路，顺着出题者的<span class='katex-error' title='ParseError: KaTeX parse error: Undefined control sequence: \fout at position 1: \̲f̲o̲u̲t̲{尿性}'>\fout{尿性}</span>思路，我们可以稍微调整一下搜索顺序，原来是对于每一位的思考，从1到9，那么我偏偏反着来，从9到1。</p>
+<p>根据这个思路，顺着出题者的<span class="katex"><span class="katex-mathml"><math><semantics><mrow><menclose notation="horizontalstrike"><mrow><mi mathvariant="normal">尿</mi><mi mathvariant="normal">性</mi></mrow></menclose></mrow><annotation encoding="application/x-tex">\sout{尿性}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.2555em;vertical-align:0em;"></span><span class="mord"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.2555em;"><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord cjk_fallback">尿</span><span class="mord cjk_fallback">性</span></span></span><span style="top:-3.2155em;"><span class="pstrut" style="height:3em;"></span><span class="stretchy sout"></span></span></span></span></span></span></span></span></span>思路，我们可以稍微调整一下搜索顺序，原来是对于每一位的思考，从1到9，那么我偏偏反着来，从9到1。</p>
 <p>其实数据随机根本优化不了多少，但是这题优化的比较多吧。一个点优化了50ms<br>
 总计 <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mn>21</mn><mi>m</mi><mi>s</mi></mrow><annotation encoding="application/x-tex">21ms</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">2</span><span class="mord">1</span><span class="mord mathdefault">m</span><span class="mord mathdefault">s</span></span></span></span> 。</p>
 <p>好，现在上第二题，循序渐进，第二题来个蓝题：<a href="https://www.luogu.com.cn/problem/P1074">题目传送门</a><br>
